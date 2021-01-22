@@ -12,21 +12,20 @@ var (
 )
 
 func deposit(value int, wg *sync.WaitGroup) {
+	defer wg.Done()
 	mutext.Lock()
+	defer mutext.Unlock()
 	time.Sleep(5 * time.Second)
 	fmt.Printf("Depositing %d to account with balance %d\n", value, balance)
 	balance += value
-	mutext.Unlock()
-	wg.Done()
-
 }
 func withDraw(value int, wg *sync.WaitGroup) {
+	defer wg.Done()
 	mutext.Lock()
+	defer mutext.Unlock()
 	time.Sleep(5 * time.Second)
 	fmt.Printf("Withdraw %d to account with balance %d\n", value, balance)
 	balance -= value
-	mutext.Unlock()
-	wg.Done()
 }
 func main() {
 	balance = 1000
